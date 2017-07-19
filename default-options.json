@@ -1,0 +1,13 @@
+{
+	"entities": [
+		{
+			"name":"payment"
+		},
+		{
+			"name": "loan"
+		},
+		{
+			"name": "sign"
+		}
+	]
+}
