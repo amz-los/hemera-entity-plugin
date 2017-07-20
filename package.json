@@ -14,9 +14,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "deep-extend": "^0.5.0",
     "hemera-joi": "1.x",
     "hemera-plugin": "^0.0.2",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "object-assign": "^4.1.1"
   },
   "peerDependencies": {
     "nats-hemera": "1.x || 2.x"

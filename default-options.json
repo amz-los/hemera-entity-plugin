@@ -1,13 +1,5 @@
 {
-	"entities": [
-		{
-			"name":"payment"
-		},
-		{
-			"name": "loan"
-		},
-		{
-			"name": "sign"
-		}
-	]
+	"role":"payment",
+	"store": "mongo-store",
+	"collection": "payments"
 }

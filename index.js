@@ -9,38 +9,34 @@ exports.plugin = Hp(function hemeraEntity (options, next) {
   const hemera = this
   const topic = 'entity'
   var default_options = require('./default-options.json')
-  options = _.extend(default_options, options);
-  var entities = options.entities;
+  options = _.defaultsDeep(options, default_options);
 
   /**
-   * Initialization of plugin. Added entity for ENTITIES
-   * @param  {[type]} var i             in entities [description]
+   * Initialization of plugin. Added entity with endpoints
    * @return {[type]}     [description]
    */
-  for (var i in entities) {
-      var entity = entities[i];
-      console.log('Creating dynamic entity: ' + entity.name);
 
-      for (var k in endpoints) {
+    console.info('Creating dynamic entity: ' + options.role);
 
-          var endpoint = endpoints[k];
-          console.log('Creating dynamic endpoint: ' + endpoint);
+    for (var k in endpoints) {
 
-          hemera.add({
-              topic: entity.name,
-              cmd: endpoint
-          }, function (req, cb) {
+        var endpoint = endpoints[k];
+        console.info('Creating dynamic endpoint: ' + endpoint);
 
-              var store = _.extend(req,{ topic: 'mongo-store',
-                                  cmd: req.cmd,
-                                  collection: req.topic});
+        hemera.add({
+            topic: options.role,
+            cmd: endpoint,
+        }, function (req, cb) {
 
-              hemera.act(store, function (err, resp) {
-                  return cb(err, resp);
-              })
-          });
-      }
-  }
+            var store = _.extend(req,{ topic: options.store,
+                                cmd: req.cmd,
+                                collection: options.collection});
+
+            hemera.act(store, function (err, resp) {
+                return cb(err, resp);
+            })
+        });
+    }
 
   next()
 })
