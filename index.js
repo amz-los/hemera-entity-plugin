@@ -65,8 +65,21 @@ exports.plugin = Hp(function hemeraEntity(options, next) {
         cmd: "commands"
     }, (req, done) => {
 
-        return done(null, {
-            result: endpoints
+        hemera.act({
+          topic: 'stats',
+          cmd: 'registeredActions',
+        }, function (err, resp) {
+
+            let scopes = []
+            _.each(resp.actions, (action, key) => {
+                if (action.plugin == 'hemera-entity-plugin') {
+                    scopes.push(action.pattern.topic + '_' + action.pattern.cmd)
+                }
+            })
+
+            return done(null, {
+                result: scopes
+            })
         })
     })
 
