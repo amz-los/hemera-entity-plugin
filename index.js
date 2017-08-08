@@ -64,7 +64,6 @@ exports.plugin = Hp(function hemeraEntity(options, next) {
         topic: options.role,
         cmd: "commands"
     }, (req, done) => {
-        if (err) return done(err, null)
 
         return done(null, {
             result: endpoints
