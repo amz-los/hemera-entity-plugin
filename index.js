@@ -1,48 +1,58 @@
 'use strict'
+var JWTSECRET = process.env.JWTSECRET || false
 
 const Hp = require('hemera-plugin');
 const _ = require('lodash');
+const jwt = require('hemera-jwt-auth')
 
-var endpoints = ["create" ,"update" ,"updateById" ,"find" ,"findById" ,"remove" ,"removeById" ,"replace" ,"replaceById" ,"exists"];
+var endpoints = ["create", "update", "updateById", "find", "findById", "remove", "removeById", "replace", "replaceById", "exists"];
 
-exports.plugin = Hp(function hemeraEntity (options, next) {
-  const hemera = this
-  const topic = 'entity'
-  var default_options = require('./default-options.json')
-  options = _.defaultsDeep(options, default_options);
+exports.plugin = Hp(function hemeraEntity(options, next) {
 
-  /**
-   * Initialization of plugin. Added entity with endpoints
-   * @return {[type]}     [description]
-   */
+    const hemera = this
 
-    console.info('Creating dynamic entity: ' + options.role);
+    var default_options = require('./default-options.json')
+    options = _.defaultsDeep(options, default_options);
+
+    hemera.use(jwt, {
+        enforceAuth: false, // set to false if you want to enable it selectively
+        jwt: {
+            secret: JWTSECRET
+        }
+    })
+
+    /**
+     * Initialization of plugin. Added entity with endpoints
+     * @return {[type]}     [description]
+     */
 
     for (var k in endpoints) {
-
         var endpoint = endpoints[k];
-        console.info('Creating dynamic endpoint: ' + endpoint);
-
         hemera.add({
             topic: options.role,
             cmd: endpoint,
-        }, function (req, cb) {
+            auth$: {
+                scope: [options.role + '_' + endpoint]
+            },
+        }, function(req, cb) {
 
-            var store = _.extend(req,{ topic: options.store,
-                                cmd: req.cmd,
-                                collection: options.collection});
+            var store = _.extend(req, {
+                topic: options.store,
+                cmd: req.cmd,
+                collection: options.collection
+            });
 
-            hemera.act(store, function (err, resp) {
+            hemera.act(store, function(err, resp) {
                 return cb(err, resp);
             })
         });
     }
 
-  next()
+    next()
 })
 
 exports.options = {}
 
 exports.attributes = {
-  pkg: require('./package.json')
+    pkg: require('./package.json')
 }

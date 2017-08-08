@@ -16,6 +16,7 @@
   "dependencies": {
     "deep-extend": "^0.5.0",
     "hemera-joi": "1.x",
+    "hemera-jwt-auth": "^1.2.1",
     "hemera-plugin": "^0.0.2",
     "lodash": "^4.17.4",
     "object-assign": "^4.1.1"
@@ -24,13 +25,15 @@
     "nats-hemera": "1.x || 2.x"
   },
   "devDependencies": {
+    "nats-hemera": "1.x",
     "code": "4.0.x",
+    "hemera-mongo-store": "^1.1.1",
+    "jsonwebtoken": "^7.4.2",
     "hemera-testsuite": "1.x",
     "istanbul": "0.4.x",
     "mocha": "3.2.x",
     "mocha-lcov-reporter": "1.2.x",
     "nyc": "10.3.x",
-    "nats-hemera": "1.x",
     "nats": "0.7.x",
     "standard": "^10.0.2"
   }
