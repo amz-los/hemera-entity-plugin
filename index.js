@@ -25,7 +25,6 @@ exports.plugin = Hp(function hemeraEntity(options, next) {
      * Initialization of plugin. Added entity with endpoints
      * @return {[type]}     [description]
      */
-
     for (var k in endpoints) {
         var endpoint = endpoints[k];
         hemera.add({
@@ -34,7 +33,7 @@ exports.plugin = Hp(function hemeraEntity(options, next) {
             auth$: {
                 scope: [options.role + '_' + endpoint]
             },
-        }, function(req, cb) {
+        }, (req, done) => {
 
             var store = _.extend(req, {
                 topic: options.store,
@@ -42,11 +41,25 @@ exports.plugin = Hp(function hemeraEntity(options, next) {
                 collection: options.collection
             });
 
-            hemera.act(store, function(err, resp) {
-                return cb(err, resp);
+            this.act(store, (err, resp) => {
+                return done(err, resp);
             })
         });
     }
+
+    /**
+     * Provides an array of available commands
+     */
+    hemera.add({
+        topic: options.role,
+        cmd: "commands"
+    }, (req, done) => {
+        if (err) return done(err, null)
+
+        return done(null, {
+            result: endpoints
+        })
+    })
 
     next()
 })
