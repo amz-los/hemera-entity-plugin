@@ -27,24 +27,34 @@ exports.plugin = Hp(function hemeraEntity(options, next) {
      */
     for (var k in endpoints) {
         var endpoint = endpoints[k];
-        hemera.add({
-            topic: options.role,
-            cmd: endpoint,
-            auth$: {
-                scope: [options.role + '_' + endpoint]
-            },
-        }, (req, done) => {
 
-            var store = _.extend(req, {
-                topic: options.store,
-                cmd: req.cmd,
-                collection: options.collection
+        // define dynamic endpoint only if it doesn't already exist
+        if (this.list({
+                topic: options.role,
+                cmd: endpoint
+            }).length === 0) {
+
+
+            hemera.add({
+                topic: options.role,
+                cmd: endpoint,
+                auth$: {
+                    scope: [options.role + '_' + endpoint]
+                },
+            }, (req, done) => {
+
+                var store = _.extend(req, {
+                    topic: options.store,
+                    cmd: req.cmd,
+                    collection: options.collection
+                });
+
+                this.act(store, (err, resp) => {
+                    return done(err, resp);
+                })
             });
 
-            this.act(store, (err, resp) => {
-                return done(err, resp);
-            })
-        });
+        }
     }
 
     /**
