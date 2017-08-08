@@ -1,7 +1,7 @@
 {
-  "name": "hemera-entity",
+  "name": "hemera-entity-plugin",
   "version": "0.0.0",
-  "description": "This is your hemera plugin",
+  "description": "Entity plugin for dynamic db operations",
   "main": "index.js",
   "scripts": {
     "lint": "standard --fix index.js",
