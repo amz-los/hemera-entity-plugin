@@ -71,9 +71,10 @@ exports.plugin = Hp(function hemeraEntity(options, next) {
         }, function (err, resp) {
 
             let scopes = []
-            const regex = /hemera-.*-plugin/g
             _.each(resp.actions, (action, key) => {
-                if (regex.test(action.plugin)) {
+                const regex = new RegExp(/hemera-.*-plugin/g)
+                let ismatch = regex.test(action.plugin)
+                if (ismatch) {
                     scopes.push(action.pattern.topic + '_' + action.pattern.cmd)
                 }
             })
