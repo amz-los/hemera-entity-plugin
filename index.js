@@ -14,13 +14,6 @@ exports.plugin = Hp(function hemeraEntity(options, next) {
     var default_options = require('./default-options.json')
     options = _.defaultsDeep(options, default_options);
 
-    hemera.use(jwt, {
-        enforceAuth: false, // set to false if you want to enable it selectively
-        jwt: {
-            secret: JWTSECRET
-        }
-    })
-
     /**
      * Initialization of plugin. Added entity with endpoints
      * @return {[type]}     [description]
