@@ -15,8 +15,6 @@
   "license": "MIT",
   "dependencies": {
     "deep-extend": "^0.5.0",
-    "hemera-joi": "1.x",
-    "hemera-jwt-auth": "^1.2.1",
     "hemera-plugin": "^0.0.2",
     "lodash": "^4.17.4",
     "object-assign": "^4.1.1"

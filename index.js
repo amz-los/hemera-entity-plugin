@@ -1,9 +1,8 @@
 'use strict'
-var JWTSECRET = process.env.JWTSECRET || false
 
 const Hp = require('hemera-plugin');
 const _ = require('lodash');
-const jwt = require('hemera-jwt-auth')
+
 
 var endpoints = ["create", "update", "updateById", "find", "findById", "remove", "removeById", "replace", "replaceById", "exists"];
 
@@ -13,6 +12,7 @@ exports.plugin = Hp(function hemeraEntity(options, next) {
 
     var default_options = require('./default-options.json')
     options = _.defaultsDeep(options, default_options);
+
 
     /**
      * Initialization of plugin. Added entity with endpoints
